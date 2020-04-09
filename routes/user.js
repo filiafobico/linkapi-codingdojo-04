@@ -1,0 +1,39 @@
+const express = require("express");
+const router = express.Router();
+
+const User = require('../models/User');
+
+router.get('/:_id?', async (req, res) => {
+  const response = await new User({ _id: req.params._id }).getById();
+  let status = 200;
+
+  if (response.err) {
+    status = 400;
+  }
+  res.status(status).send(response);
+});
+
+router.post('/', async (req, res) => {
+  const user = new User(req.body);
+  const response = await user.insert();
+  let status = 200;
+
+  if (response.err) {
+    status = 400;
+  }
+  res.status(status).send(response);
+});
+
+router.put('/:_id?', async (req, res) => {
+  const user = req.body;
+  user._id = req.params._id;
+  const response = await new User(user).update();
+  let status = 200;
+
+  if (response.err) {
+    status = 400;
+  }
+  res.status(status).send(response);
+});
+
+module.exports = router;
