@@ -1,11 +1,14 @@
 const IUser = require('./IUser');
 
+const COLLECTION = 'user';
 class User {
-
-  COLLECTION = 'user';
 
   constructor({ _id, name, type, cpf }) {
     this.user = new IUser({ _id, name, type, cpf });
+  }
+
+  get collection() {
+    return COLLECTION;
   }
 
   async getById() {
@@ -14,7 +17,7 @@ class User {
     }
 
     const user = await global.db
-      .collection(this.COLLECTION)
+      .collection(this.collection)
       .findOne({ _id: this.user.getObjectId() });
 
     this.user = new IUser(user);
@@ -27,7 +30,7 @@ class User {
     }
 
     const res = await global.db
-      .collection(this.COLLECTION)
+      .collection(this.collection)
       .insertOne(this.user);
 
     this.user._id = res.insertedId.toString();
@@ -42,7 +45,7 @@ class User {
     delete this.user._id;
 
     await global.db
-      .collection(this.COLLECTION)
+      .collection(this.collection)
       .updateOne({ _id }, { $set: this.user });
 
     this.user._id = _id.toString();
