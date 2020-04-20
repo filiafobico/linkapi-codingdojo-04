@@ -4,8 +4,14 @@ const router = express.Router();
 const User = require('../models/User');
 
 router.get('/:_id?', async (req, res) => {
-  const response = await new User({ _id: req.params._id }).getById();
+  let response = {};
   let status = 200;
+  
+  if (req.params._id) {
+    response = await new User({ _id: req.params._id }).getById();
+  } else {
+    response = await new User({}).getAll();
+  }
 
   if (response.err) {
     status = 400;

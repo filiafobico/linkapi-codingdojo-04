@@ -24,6 +24,15 @@ class User {
     return this.user;
   }
 
+  async getAll() {
+    const users = await global.db
+      .collection(this.collection)
+      .find({})
+      .toArray();
+    
+    return users.map( user => new IUser(user) );
+  }
+
   async insert() {
     if (!this.user.isValidForInsert()) {
       return { err: 1, msg: "invalid schema" };
