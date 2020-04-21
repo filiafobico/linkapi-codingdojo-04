@@ -1,16 +1,22 @@
 const ObjectId = require('mongodb').ObjectId;
 const { t } = require('typy');
+const bcrypt = require('bcryptjs')
 
 class IUser {
 
-  constructor({ _id, name, type, cpf }) {
+  constructor({ _id, name, type, cpf, password }) {
     this._id = _id;
     this.name = name;
     this.type = type;
     this.cpf = cpf;
+    this.password = password;
   }
 
-  isValidForInsert() {
+  async isValidForInsert() {
+    if (!this.validPassword) {
+      return false;
+    }
+    this.password = await this.encriptPassword();
     return this.validName() &&
       this.validType() &&
       this.validCpf();
@@ -38,6 +44,14 @@ class IUser {
 
   validCpf() {
     return t(this.cpf).isCpf;
+  }
+
+  validPassword() {
+    return t(this.password).isString;
+  }
+
+  async encriptPassword() {
+    return await bcrypt.hash(this.password, 10);
   }
 
   getObjectId() {

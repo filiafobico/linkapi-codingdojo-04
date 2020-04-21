@@ -3,8 +3,8 @@ const IUser = require('./IUser');
 const COLLECTION = 'user';
 class User {
 
-  constructor({ _id, name, type, cpf }) {
-    this.user = new IUser({ _id, name, type, cpf });
+  constructor({ _id, name, type, cpf, password }) {
+    this.user = new IUser({ _id, name, type, cpf, password });
   }
 
   get collection() {
