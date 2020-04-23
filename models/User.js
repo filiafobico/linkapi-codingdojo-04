@@ -20,8 +20,11 @@ class User {
       .collection(this.collection)
       .findOne({ _id: this.user.getObjectId() });
 
-    this.user = new IUser(user);
-    return this.user;
+    if (user) {
+      this.user = new IUser(user);
+      return this.user;
+    }
+    return { err: 2, msg: "user not found" };
   }
 
   async getAll() {
@@ -29,8 +32,11 @@ class User {
       .collection(this.collection)
       .find({})
       .toArray();
-    
-    return users.map( user => new IUser(user) );
+
+    if (users.length) {
+      return users.map( user => new IUser(user) );
+    }
+    return { err: 2, msg: "user not found" };
   }
 
   async insert() {
