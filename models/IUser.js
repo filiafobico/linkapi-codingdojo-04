@@ -27,6 +27,7 @@ class IUser {
       (this.name ? this.validName() : delete this.name) &&
       (this.type ? this.validType() : delete this.type) &&
       (this.cpf ? this.validCpf() : delete this.cpf) &&
+      (this.password ? this.validPassword() : delete this.password) &&
       Object.keys(this).length > 1
   }
 
