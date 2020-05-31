@@ -10,7 +10,13 @@ global.db = require("../db");
  * Custom types
  */
 
- require('../customTypes');
+require('../customTypes');
+
+/**
+ * Passport
+ */
+
+require('../middleware/passport/init');
 
 /**
  * Module dependencies.

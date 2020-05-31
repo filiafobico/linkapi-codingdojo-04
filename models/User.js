@@ -27,10 +27,10 @@ class User {
     return { err: 2, msg: "user not found" };
   }
 
-  async getAll() {
+  async getAll(param = {}) {
     const users = await global.db
       .collection(this.collection)
-      .find({})
+      .find(param)
       .toArray();
 
     if (users.length) {
