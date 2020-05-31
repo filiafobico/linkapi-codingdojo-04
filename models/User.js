@@ -43,7 +43,7 @@ class User {
     if (!this.user.isValidForInsert()) {
       return { err: 1, msg: "invalid schema" };
     }
-
+    this.user.password = await this.user.encriptPassword(this.user.password);
     const res = await global.db
       .collection(this.collection)
       .insertOne(this.user);

@@ -1,6 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 const { t } = require('typy');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
 class IUser {
 
@@ -16,7 +16,7 @@ class IUser {
     if (!this.validPassword) {
       return false;
     }
-    this.password = await this.encriptPassword();
+
     return this.validName() &&
       this.validType() &&
       this.validCpf();
@@ -51,8 +51,10 @@ class IUser {
     return t(this.password).isString;
   }
 
-  async encriptPassword() {
-    return await bcrypt.hash(this.password, 10);
+  async encriptPassword(password) {
+    if (password) {
+      return await bcrypt.hash(password, 10);
+    }
   }
 
   getObjectId() {
