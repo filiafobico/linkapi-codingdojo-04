@@ -13,7 +13,7 @@ class IUser {
   }
 
   async isValidForInsert() {
-    if (!this.validPassword) {
+    if (!this.validPassword()) {
       return false;
     }
 

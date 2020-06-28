@@ -40,7 +40,7 @@ class User {
   }
 
   async insert() {
-    if (!this.user.isValidForInsert()) {
+    if (!await this.user.isValidForInsert()) {
       return { err: 1, msg: "invalid schema" };
     }
     this.user.password = await this.user.encriptPassword(this.user.password);
