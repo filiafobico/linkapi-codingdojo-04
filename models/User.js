@@ -57,6 +57,7 @@ class User {
       return { err: 1, msg: "invalid schema" };
     }
     const _id = this.user.getObjectId();
+    this.user.password = await this.user.encriptPassword(this.user.password);
     delete this.user._id;
 
     await global.db
