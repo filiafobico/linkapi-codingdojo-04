@@ -4,10 +4,13 @@ const { auth } = require('../middleware/passport/auth');
 
 router.post('/', auth(), (req, res) => {
   const { password, ...userWithoutPassword } = req.user[0];
-  res.status(200).json(userWithoutPassword);
+  res.status(200).json({
+    response: [userWithoutPassword],
+    error: null
+  });
 });
 
-router.delete('/', function(req, res){
+router.delete('/', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });

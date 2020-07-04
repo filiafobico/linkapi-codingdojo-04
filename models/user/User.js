@@ -36,7 +36,7 @@ class User {
     if (users.length) {
       return users.map( user => new IUser(user) );
     }
-    return { err: 2, msg: "user not found" };
+    return [];
   }
 
   async insert() {

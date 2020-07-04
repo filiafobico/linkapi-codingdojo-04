@@ -20,7 +20,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
   }
-  return res.status(401).json({ "err": 4, "msg": "not authenticated" })
+  return res.status(401).json({ response: [], error: "not authenticated" });
 }
 
 module.exports = { auth, isLoggedIn };
