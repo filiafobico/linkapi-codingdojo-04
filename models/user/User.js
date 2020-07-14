@@ -67,6 +67,18 @@ class User {
     this.user._id = _id.toString();
     return await this.getById();
   }
+
+  async delete() {
+    if (!this.user.validId()) {
+      return { err: 1, msg: "invalid schema" };
+    }
+
+    await global.db
+    .collection(this.collection)
+    .deleteOne({ _id: this.user.getObjectId() });
+
+    return true;
+  }
 }
 
 module.exports = User;

@@ -42,4 +42,14 @@ router.put('/:_id?', async (req, res) => {
   res.status(status).send(response);
 });
 
+router.delete('/:_id?', async (req, res) => {
+  const response = await new User({ _id: req.params._id }).delete();
+  let status = 200;
+
+  if (response.err) {
+    status = 400;
+  }
+  res.status(status).send(response);
+});
+
 module.exports = router;
