@@ -12,7 +12,10 @@ router.post('/', auth(), (req, res) => {
 
 router.delete('/', (req, res) => {
   req.logout();
-  res.sendStatus(200);
+  res.status(200).json({
+    response: 'OK',
+    error: null
+  });
 });
 
 module.exports = router;
