@@ -10,7 +10,7 @@ router.get('/:_id?', async (req, res) => {
   if (req.params._id) {
     response = await new User({ _id: req.params._id }).getById();
   } else {
-    response = await new User({}).getAll();
+    response = await new User({}).getAll(req.query);
   }
 
   if (response.err) {
