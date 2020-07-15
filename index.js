@@ -8,7 +8,7 @@ const { isLoggedIn } = require('./middleware/passport/auth');
 
 // config
 app.use(bodyParser.json({ limit: '100kb' }));
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
 
 // passport
 app.use(session({
@@ -21,6 +21,6 @@ app.use(passport.session());
 
 // routes
 app.use('/auth', require('./routes/auth'));
-app.use('/user', isLoggedIn, require('./routes/user'));
+app.use('/user', require('./routes/user'));
 
 module.exports = app;
