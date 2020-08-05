@@ -36,6 +36,7 @@ class Cars {
   _fitCars(cars) {
     for (let car of cars) {
       car.notificado = this._rulesToNotificado(car);
+      car.classificado = "Não Classificado";
     }
     return cars;
   }
