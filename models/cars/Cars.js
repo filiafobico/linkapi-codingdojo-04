@@ -2,7 +2,7 @@ const COLLECTION = 'car';
 
 class Cars {
   constructor(cars) {
-    this._cars = cars;
+    this._cars = this._fitCars(cars);
   }
 
   get collection() {
@@ -31,6 +31,20 @@ class Cars {
     }
 
     return { response: this._cars, error: null };
+  }
+
+  _fitCars(cars) {
+    for (let car of cars) {
+      car.notificado = this._rulesToNotificado(car);
+    }
+    return cars;
+  }
+
+  _rulesToNotificado(car) {
+    if (new Date(car.datahorarecolhimento) < new Date('2016-09-07')) {
+      return "Não";
+    }
+    return car.notificado;
   }
 }
 
