@@ -51,8 +51,8 @@ class Cars {
     switch (param['category']) {
       case 'juiz':
         return 'vwNotificaJuiz';
-      case 'condutor':
-        return 'vwNotificaCondutor';
+      case 'comprador':
+        return 'vwNotificaComprador';
       case 'proprietario':
         return 'vwNotificaProprietario';
       case 'receita':
