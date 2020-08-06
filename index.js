@@ -23,5 +23,6 @@ app.use(passport.session());
 app.use('/auth', require('./routes/auth'));
 app.use('/user', require('./routes/user'));
 app.use('/cars', require('./routes/cars'));
+app.use('/car', require('./routes/car'));
 
 module.exports = app;
