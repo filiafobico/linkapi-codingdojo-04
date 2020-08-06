@@ -59,4 +59,14 @@ router.post('/', (req, res, next) => {
   });
 });
 
+router.get('/', async (req, res) => {
+  const response = await new Cars().getAll(req.query);
+  let status = 200;
+
+  if (response.err) {
+    status = 400;
+  }
+  res.status(status).send(response);
+});
+
 module.exports = router;

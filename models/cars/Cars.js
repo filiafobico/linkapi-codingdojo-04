@@ -2,7 +2,9 @@ const COLLECTION = 'car';
 
 class Cars {
   constructor(cars) {
-    this._cars = this._fitCars(cars);
+    if (cars) {
+      this._cars = this._fitCars(cars);
+    }
   }
 
   get collection() {
@@ -31,6 +33,42 @@ class Cars {
     }
 
     return { response: this._cars, error: null };
+  }
+
+  async getAll(param = {}) {
+    const cars = await global.db
+      .collection(this._choseTable(param))
+      .find(this._makeFilter(param))
+      .toArray();
+
+    if (cars.length) {
+      return { response: cars, error: null };
+    }
+    return { response: [], error: null };
+  }
+
+  _choseTable(param = {}) {
+    switch (param['category']) {
+      case 'juiz':
+        return 'vwNotificaJuiz';
+      case 'condutor':
+        return 'vwNotificaCondutor';
+      case 'proprietario':
+        return 'vwNotificaProprietario';
+      case 'receita':
+        return 'vwNotificaReceitaFederal';
+      case 'fiduciaria':
+        return 'vwNotificaRestricaoFiduciaria';
+      case 'roubo':
+        return 'vwRouboFurto';
+      default:
+        return 'vwCars';
+    }
+  }
+
+  _makeFilter(param = {}) {
+    let filter = {};
+    return filter;
   }
 
   _fitCars(cars) {
