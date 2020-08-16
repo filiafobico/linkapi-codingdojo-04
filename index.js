@@ -24,5 +24,6 @@ app.use('/auth', require('./routes/auth'));
 app.use('/user', require('./routes/user'));
 app.use('/cars', require('./routes/cars'));
 app.use('/car', require('./routes/car'));
+app.use('/auction', require('./routes/auction'));
 
 module.exports = app;
