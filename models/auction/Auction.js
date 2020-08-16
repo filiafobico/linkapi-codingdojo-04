@@ -1,4 +1,5 @@
 const Car = require('../car/Car');
+const { ObjectId } = require('mongodb');
 
 const COLLECTION = 'auction';
 class Auction {
@@ -61,6 +62,33 @@ class Auction {
     }
 
     return { response: idLelao.insertedId, error: null };
+  }
+
+  async getAuctions() {
+    const auctions = await global.db.collection(this.collection).find({}).toArray();
+    return { response: auctions, error: null };
+  }
+
+  async getCarsInAuction(_id) {
+    const response = await global.db
+      .collection('car')
+      .aggregate([
+        {
+          $match: { leilao: ObjectId(_id) }
+        },
+        {
+          $project: {
+            delegacia: 1,
+            numrecolhimento: 1,
+            placa: 1,
+            marcamodelo: 1,
+            anofabricacao: 1
+          }
+        }
+      ])
+      .toArray();
+
+    return { response, error: null };
   }
 }
 
