@@ -27,10 +27,24 @@ class User {
     return { err: 2, msg: "user not found" };
   }
 
+  makeFilter(param = {}) {
+    let filter = {};
+    if (param['type']) {
+      filter['type'] = param['type'];
+    }
+    if (param['name']) {
+      filter['name'] = { $regex: param['name'], $options: 'gi' };
+    }
+    if (param['cpf']) {
+      filter['cpf'] = { $regex: param['cpf'], $options: 'gi' };
+    }
+    return filter;
+  }
+
   async getAll(param = {}) {
     const users = await global.db
       .collection(this.collection)
-      .find(param)
+      .find(this.makeFilter(param))
       .toArray();
 
     if (users.length) {
@@ -66,6 +80,18 @@ class User {
 
     this.user._id = _id.toString();
     return await this.getById();
+  }
+
+  async delete() {
+    if (!this.user.validId()) {
+      return { err: 1, msg: "invalid schema" };
+    }
+
+    await global.db
+    .collection(this.collection)
+    .deleteOne({ _id: this.user.getObjectId() });
+
+    return true;
   }
 }
 

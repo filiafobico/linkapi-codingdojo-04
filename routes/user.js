@@ -25,7 +25,7 @@ router.get('/:_id?', verifyJWT, async (req, res) => {
   if (req.params._id) {
     response = await new User({ _id: req.params._id }).getById();
   } else {
-    response = await new User({}).getAll();
+    response = await new User({}).getAll(req.query);
   }
 
   if (response.err) {
@@ -49,6 +49,16 @@ router.put('/:_id?',verifyJWT, async (req, res) => {
   const user = req.body;
   user._id = req.params._id;
   const response = await new User(user).update();
+  let status = 200;
+
+  if (response.err) {
+    status = 400;
+  }
+  res.status(status).send(response);
+});
+
+router.delete('/:_id?', async (req, res) => {
+  const response = await new User({ _id: req.params._id }).delete();
   let status = 200;
 
   if (response.err) {
