@@ -5,8 +5,8 @@ const cors = require('cors');
 
 // config
 app.use(bodyParser.json({ limit: '100kb' }));
-app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
-
+// app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
+app.use(cors());
 
 // routes
 app.use('/auth', require('./routes/auth'));
