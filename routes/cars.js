@@ -3,6 +3,21 @@ const multer  = require('multer');
 const xlsx2json = require('xlsx-to-json-lc');
 
 const Cars = require('../models/cars/Cars');
+const jwt = require("jsonwebtoken");
+
+function verifyJWT(req, res, next) {
+  var token = req.headers["token"];
+  if (!token) return res.status(400).send({ message: "Sem token não entra." });
+
+  jwt.verify(token, "1q2w3e4r", function(err, decoded) {
+    if (err)
+      return res.status(400).send({ message: "token invalido ou expirado" });
+
+    // se tudo estiver ok, salva no request para uso posterior
+    req.userId = decoded.id;
+    next();
+  });
+}
 
 function getFileExt(filename) {
   return filename.match(/(?<=\.)\w+/)[0];
@@ -25,7 +40,7 @@ const upload = multer({
   }
 }).single('planilha');
 
-router.post('/', (req, res, next) => {
+router.post('/', verifyJWT,(req, res, next) => {
   upload(req, res, (err) => {
     if (err || !req.file) {
       res.json({ response: null, error: err || "No file passed" });
@@ -59,7 +74,7 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.get('/', async (req, res) => {
+router.get('/',verifyJWT, async (req, res) => {
   const response = await new Cars().getAll(req.query);
   let status = 200;
 

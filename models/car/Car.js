@@ -12,7 +12,7 @@ class Car {
     return COLLECTION;
   }
 
-  async notify(setFields = {}) {
+  async updateById(setFields = {}) {
     let _id;
 
     try {
@@ -32,23 +32,23 @@ class Car {
   }
 
   async notifyJuiz() {
-    return await this.notify({ restrjudicial: NOTIFIED });
+    return await this.updateById({ restrjudicial: NOTIFIED });
   }
 
   async notifyComprador() {
-    return await this.notify({ restrcomunicacaovenda: NOTIFIED });
+    return await this.updateById({ restrcomunicacaovenda: NOTIFIED });
   }
 
   async notifyProprietario() {
-    return await this.notify({ restrcomunicacaovenda: NOTIFIED });
+    return await this.updateById({ restrcomunicacaovenda: NOTIFIED });
   }
 
   async notifyReceita() {
-    return await this.notify({ restrreceitafederal: NOTIFIED });
+    return await this.updateById({ restrreceitafederal: NOTIFIED });
   }
 
   async notifyFiduciaria() {
-    return await this.notify({ restralienacaofiduciaria: NOTIFIED });
+    return await this.updateById({ restralienacaofiduciaria: NOTIFIED });
   }
 }
 
