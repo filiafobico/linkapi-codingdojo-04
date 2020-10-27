@@ -4,11 +4,10 @@ const bcrypt = require('bcryptjs');
 
 class IUser {
 
-  constructor({ _id, name, type, cpf, password }) {
+  constructor({ _id, login, role, password }) {
     this._id = _id;
-    this.name = name;
-    this.type = type;
-    this.cpf = cpf;
+    this.login = login;
+    this.role = role;
     this.password = password;
   }
 
@@ -17,34 +16,28 @@ class IUser {
       return false;
     }
 
-    return this.validName() &&
-      this.validType() &&
-      this.validCpf();
+    return this.validLogin() && this.validRole();
   }
 
   isValidForUpdate() {
     return this.validId() &&
-      (this.name ? this.validName() : delete this.name) &&
-      (this.type ? this.validType() : delete this.type) &&
-      (this.cpf ? this.validCpf() : delete this.cpf) &&
+      (this.login ? this.validLogin() : delete this.login) &&
+      (this.role ? this.validCpf() : delete this.role) &&
       (this.password ? this.validPassword() : delete this.password) &&
       Object.keys(this).length > 1
   }
 
-  validName() {
-    return t(this.name).isString;
-  }
-
-  validType() {
-    return t(this.type).isString;
+  validLogin() {
+    return t(this.login).isString;
   }
 
   validId() {
     return t(this._id).isObjectId;
   }
 
-  validCpf() {
-    return t(this.cpf).isCpf;
+  validRole() {
+    return t(this.role).isString &&
+      ['admin', 'user'].includes(this.role);
   }
 
   validPassword() {

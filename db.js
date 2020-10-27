@@ -7,6 +7,6 @@ client.connect( err => {
     console.error(err);
     exit(1);
   }
-  global.db = client.db("patio-control");
+  global.db = client.db("kapicoin");
   console.info('Connected on database');
 });

@@ -3,8 +3,8 @@ const IUser = require('./IUser');
 const COLLECTION = 'user';
 class User {
 
-  constructor({ _id, name, type, cpf, password }) {
-    this.user = new IUser({ _id, name, type, cpf, password });
+  constructor({ _id, login, role, password }) {
+    this.user = new IUser({ _id, login, role, password });
   }
 
   get collection() {
@@ -27,24 +27,10 @@ class User {
     return { err: 2, msg: "user not found" };
   }
 
-  makeFilter(param = {}) {
-    let filter = {};
-    if (param['type']) {
-      filter['type'] = param['type'];
-    }
-    if (param['name']) {
-      filter['name'] = { $regex: param['name'], $options: 'gi' };
-    }
-    if (param['cpf']) {
-      filter['cpf'] = { $regex: param['cpf'], $options: 'gi' };
-    }
-    return filter;
-  }
-
   async getAll(param = {}) {
     const users = await global.db
       .collection(this.collection)
-      .find(this.makeFilter(param))
+      .find(param)
       .toArray();
 
     if (users.length) {

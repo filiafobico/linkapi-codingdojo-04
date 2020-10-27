@@ -5,10 +5,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
 router.post('/', async (req, res) => {
-  const users = await new User({}).getAll({ cpf: req.body.username });
+  const users = await new User({}).getAll({ login: req.body.login });
   if (Array.isArray(users) && users.length) {
     if (bcrypt.compareSync(req.body.password, users[0].password)) {
-      const id = users[0].id;
+      const id = users[0]._id;
       const token = jwt.sign({ id }, "1q2w3e4r", {
         expiresIn: 600 // expires in 5min
       });
